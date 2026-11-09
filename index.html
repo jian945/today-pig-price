@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -42,8 +43,6 @@
       font-size: 15px;
     }
     .row:last-child { border-bottom: 0; }
-    .up { color: #e74c3c; }
-    .down { color: #16a36a; }
     button {
       border: 0;
       background: #1677ff;
@@ -69,6 +68,11 @@
   </div>
 
   <div class="card">
+    <div class="label">山东生猪均价</div>
+    <div class="price" id="shandong">-- <span class="unit">元/公斤</span></div>
+  </div>
+
+  <div class="card">
     <div class="section-title">各省生猪均价</div>
     <div id="list">
       <p class="note">价格数据正在接入，暂不显示未经核实的价格。</p>
@@ -84,32 +88,61 @@
     async function loadPrices() {
       const list = document.getElementById("list");
       const update = document.getElementById("update");
+      const shandongBox = document.getElementById("shandong");
+
       try {
         const response = await fetch("prices.json?t=" + Date.now());
         if (!response.ok) throw new Error("数据文件尚未准备好");
+
         const data = await response.json();
 
         if (!Array.isArray(data.provinces) || !data.provinces.length) {
           throw new Error("暂时没有价格数据");
         }
 
-        const valid = data.provinces.filter(p => Number.isFinite(Number(p.price)));
+        const valid = data.provinces.filter(
+          p => Number.isFinite(Number(p.price))
+        );
+
         if (!valid.length) throw new Error("暂无有效价格");
 
-        const average = valid.reduce((sum, p) => sum + Number(p.price), 0) / valid.length;
+        const average = valid.reduce(
+          (sum, p) => sum + Number(p.price), 0
+        ) / valid.length;
+
         document.getElementById("average").innerHTML =
-          average.toFixed(2) + ' <span class="unit">元/公斤</span>';
+          average.toFixed(2) +
+          ' <span class="unit">元/公斤</span>';
+
+        const shandong = valid.find(
+          p => String(p.province).includes("山东")
+        );
+
+        if (shandong) {
+          shandongBox.textContent =
+            Number(shandong.price).toFixed(2) + " 元/公斤";
+        } else {
+          shandongBox.textContent = "暂无山东价格数据";
+        }
 
         list.innerHTML = valid
           .sort((a, b) => Number(b.price) - Number(a.price))
-          .map(p => `<div class="row"><span>${p.province}</span><strong>${Number(p.price).toFixed(2)} 元</strong></div>`)
+          .map(p =>
+            `<div class="row">
+              <span>${p.province}</span>
+              <strong>${Number(p.price).toFixed(2)} 元</strong>
+            </div>`
+          )
           .join("");
 
-        update.textContent = "更新时间：" + (data.updated_at || "暂无记录");
+        update.textContent =
+          "更新时间：" + (data.updated_at || "暂无记录");
+
       } catch (error) {
         update.textContent = error.message;
       }
     }
+
     loadPrices();
   </script>
 </body>
