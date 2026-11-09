@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1677ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>今日猪价</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px 15px;
+      background: #f3f5f8;
+      color: #222;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+    .header { font-size: 27px; font-weight: 700; margin: 12px 0 5px; }
+    .subtitle { color: #888; font-size: 13px; }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 18px;
+      box-shadow: 0 3px 15px #00000008;
+    }
+    .label { color: #777; font-size: 14px; }
+    .price {
+      color: #e74c3c;
+      font-size: 42px;
+      font-weight: 750;
+      margin: 12px 0;
+    }
+    .unit { font-size: 15px; }
+    .section-title { font-size: 18px; font-weight: 700; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 15px;
+    }
+    .row:last-child { border-bottom: 0; }
+    .up { color: #e74c3c; }
+    .down { color: #16a36a; }
+    button {
+      border: 0;
+      background: #1677ff;
+      color: white;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 15px;
+      width: 100%;
+      margin-top: 15px;
+    }
+    .note { color: #999; font-size: 12px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <div class="header">🐷 今日猪价</div>
+  <div class="subtitle">全国省级生猪价格 · 外三元</div>
+
+  <div class="card">
+    <div class="label">全国外三元平均价格</div>
+    <div class="price" id="average">-- <span class="unit">元/公斤</span></div>
+    <div class="label" id="update">等待价格数据接入</div>
+    <button onclick="loadPrices()">刷新价格</button>
+  </div>
+
+  <div class="card">
+    <div class="section-title">各省外三元价格</div>
+    <div id="list">
+      <p class="note">价格数据正在接入，暂不显示未经核实的价格。</p>
+    </div>
+  </div>
+
+  <p class="note" style="text-align:center;margin-top:20px">
+    数据品种：外三元｜单位：元/公斤<br>
+    价格仅供参考，以实际交易价格为准
+  </p>
+
+  <script>
+    async function loadPrices() {
+      const list = document.getElementById("list");
+      const update = document.getElementById("update");
+      try {
+        const response = await fetch("prices.json?t=" + Date.now());
+        if (!response.ok) throw new Error("数据文件尚未准备好");
+        const data = await response.json();
+
+        if (!Array.isArray(data.provinces) || !data.provinces.length) {
+          throw new Error("暂时没有价格数据");
+        }
+
+        const valid = data.provinces.filter(p => Number.isFinite(Number(p.price)));
+        if (!valid.length) throw new Error("暂无有效价格");
+
+        const average = valid.reduce((sum, p) => sum + Number(p.price), 0) / valid.length;
+        document.getElementById("average").innerHTML =
+          average.toFixed(2) + ' <span class="unit">元/公斤</span>';
+
+        list.innerHTML = valid
+          .sort((a, b) => Number(b.price) - Number(a.price))
+          .map(p => `<div class="row"><span>${p.province}</span><strong>${Number(p.price).toFixed(2)} 元</strong></div>`)
+          .join("");
+
+        update.textContent = "更新时间：" + (data.updated_at || "暂无记录");
+      } catch (error) {
+        update.textContent = error.message;
+      }
+    }
+    loadPrices();
+  </script>
+</body>
+</html>
