@@ -59,24 +59,24 @@
 </head>
 <body>
   <div class="header">🐷 今日猪价</div>
-  <div class="subtitle">全国省级生猪价格 · 外三元</div>
+  <div class="subtitle">全国各省生猪均价 · 外三元</div>
 
   <div class="card">
-    <div class="label">全国外三元平均价格</div>
+    <div class="label">全国省级生猪平均价格</div>
     <div class="price" id="average">-- <span class="unit">元/公斤</span></div>
     <div class="label" id="update">等待价格数据接入</div>
     <button onclick="loadPrices()">刷新价格</button>
   </div>
 
   <div class="card">
-    <div class="section-title">各省外三元价格</div>
+    <div class="section-title">各省生猪均价</div>
     <div id="list">
       <p class="note">价格数据正在接入，暂不显示未经核实的价格。</p>
     </div>
   </div>
 
   <p class="note" style="text-align:center;margin-top:20px">
-    数据品种：外三元｜单位：元/公斤<br>
+    数据口径：未区分品种｜单位：元/公斤<br>
     价格仅供参考，以实际交易价格为准
   </p>
 
