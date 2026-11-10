@@ -1,5 +1,6 @@
 
 import json
+import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -7,14 +8,32 @@ import akshare as ak
 import pandas as pd
 
 
+def get_price_data():
+    """获取搜猪网数据，失败后自动重试"""
+    for attempt in range(1, 4):
+        try:
+            print(f"正在获取搜猪网数据，第 {attempt}/3 次尝试……")
+            df = ak.spot_hog_soozhu()
+
+            if df is None or df.empty:
+                raise RuntimeError("数据源没有返回价格数据")
+
+            return df
+
+        except Exception as e:
+            print(f"第 {attempt} 次获取失败：{e}")
+
+            if attempt < 3:
+                print("等待 20 秒后重试……")
+                time.sleep(20)
+            else:
+                raise RuntimeError("连续 3 次获取失败，请检查搜猪网连接") from e
+
+
 def main():
     print("开始获取各省生猪均价……")
 
-    # 获取搜猪网各省实时均价
-    df = ak.spot_hog_soozhu()
-
-    if df is None or df.empty:
-        raise RuntimeError("数据源没有返回价格数据")
+    df = get_price_data()
 
     required = ["省份", "价格"]
 
@@ -24,7 +43,6 @@ def main():
                 f"数据字段缺失：{column}，实际字段：{list(df.columns)}"
             )
 
-    # 清洗价格数据
     df = df[required].copy()
     df["省份"] = df["省份"].astype(str).str.strip()
     df["价格"] = pd.to_numeric(df["价格"], errors="coerce")
@@ -51,7 +69,6 @@ def main():
         for _, row in df.iterrows()
     ]
 
-    # 计算全国省级平均价
     average = sum(
         item["price"] for item in provinces
     ) / len(provinces)
@@ -68,7 +85,6 @@ def main():
         "provinces": provinces
     }
 
-    # 保存为 JSON
     with open("prices.json", "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
 
