@@ -1,11 +1,31 @@
 {
-  "updated_at": "2026-11-18 20:44:39",
+  "updated_at": "2026-11-19 05:09:11",
   "breed": "省级生猪均价（未区分品种）",
   "unit": "元/公斤",
   "average": 9.21,
   "count": 28,
   "source": "搜猪网 / AKShare",
   "provinces": [
+    {
+      "province": "北京",
+      "price": 12.0
+    },
+    {
+      "province": "天津",
+      "price": 8.4
+    },
+    {
+      "province": "河北",
+      "price": 9.02
+    },
+    {
+      "province": "山西",
+      "price": 8.77
+    },
+    {
+      "province": "内蒙古",
+      "price": 8.6
+    },
     {
       "province": "黑龙江",
       "price": 9.3
@@ -19,60 +39,40 @@
       "price": 8.66
     },
     {
-      "province": "河北",
-      "price": 9.02
+      "province": "福建",
+      "price": 10.2
     },
     {
-      "province": "山西",
-      "price": 8.77
-    },
-    {
-      "province": "山东",
-      "price": 8.98
-    },
-    {
-      "province": "河南",
-      "price": 8.91
-    },
-    {
-      "province": "宁夏",
-      "price": 8.8
-    },
-    {
-      "province": "新疆",
-      "price": 8.2
-    },
-    {
-      "province": "陕西",
-      "price": 9.2
-    },
-    {
-      "province": "甘肃",
-      "price": 8.4
-    },
-    {
-      "province": "湖北",
-      "price": 8.8
-    },
-    {
-      "province": "湖南",
-      "price": 8.8
-    },
-    {
-      "province": "江西",
-      "price": 10.0
+      "province": "浙江",
+      "price": 9.8
     },
     {
       "province": "江苏",
       "price": 9.2
     },
     {
+      "province": "山东",
+      "price": 8.98
+    },
+    {
       "province": "安徽",
       "price": 9.2
     },
     {
-      "province": "浙江",
-      "price": 9.8
+      "province": "江西",
+      "price": 10.0
+    },
+    {
+      "province": "湖北",
+      "price": 8.8
+    },
+    {
+      "province": "河南",
+      "price": 8.91
+    },
+    {
+      "province": "湖南",
+      "price": 8.8
     },
     {
       "province": "广东",
@@ -83,12 +83,28 @@
       "price": 9.4
     },
     {
-      "province": "福建",
-      "price": 10.2
+      "province": "海南",
+      "price": 10.8
     },
     {
-      "province": "内蒙古",
-      "price": 8.6
+      "province": "陕西",
+      "price": 9.2
+    },
+    {
+      "province": "甘肃",
+      "price": 8.4
+    },
+    {
+      "province": "新疆",
+      "price": 8.2
+    },
+    {
+      "province": "宁夏",
+      "price": 8.8
+    },
+    {
+      "province": "重庆",
+      "price": 8.8
     },
     {
       "province": "四川",
@@ -101,22 +117,6 @@
     {
       "province": "贵州",
       "price": 8.6
-    },
-    {
-      "province": "重庆",
-      "price": 8.8
-    },
-    {
-      "province": "北京",
-      "price": 12.0
-    },
-    {
-      "province": "天津",
-      "price": 8.4
-    },
-    {
-      "province": "海南",
-      "price": 10.8
     }
   ]
 }
