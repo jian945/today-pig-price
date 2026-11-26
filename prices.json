@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-11-26 12:01:20",
+  "updated_at": "2026-11-26 21:49:16",
   "breed": "省级生猪均价（未区分品种）",
   "unit": "元/公斤",
-  "average": 9.92,
+  "average": 9.9,
   "count": 28,
   "source": "搜猪网 / AKShare",
   "provinces": [
     {
       "province": "黑龙江",
-      "price": 9.76
+      "price": 9.8
     },
     {
       "province": "辽宁",
-      "price": 9.57
+      "price": 9.56
     },
     {
       "province": "吉林",
@@ -20,15 +20,15 @@
     },
     {
       "province": "河北",
-      "price": 9.63
+      "price": 9.58
     },
     {
       "province": "山东",
-      "price": 9.84
+      "price": 9.67
     },
     {
       "province": "山西",
-      "price": 9.44
+      "price": 9.33
     },
     {
       "province": "内蒙古",
@@ -36,7 +36,7 @@
     },
     {
       "province": "河南",
-      "price": 9.37
+      "price": 9.35
     },
     {
       "province": "宁夏",
@@ -60,7 +60,7 @@
     },
     {
       "province": "湖南",
-      "price": 10.0
+      "price": 9.87
     },
     {
       "province": "江西",
